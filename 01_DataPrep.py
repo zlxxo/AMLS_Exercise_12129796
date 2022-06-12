@@ -33,8 +33,11 @@ def dataStatistics(data):
     data.plot(subplots=True, layout=(5,3), figsize=(10, 10))
     plt.title('Dataset variables')
     plt.show()
-    data.hist(bins=20,figsize=(10,10))
+    data.hist(bins=10,figsize=(10,10))
     plt.title('Variable histograms')
+    plt.show()
+    data.plot(kind='density', subplots=True, layout=(5,3), figsize=(10, 10))
+    plt.title('Variable distributions')
     plt.show()
     return
 
@@ -42,7 +45,11 @@ def dataStatistics(data):
 def dataNormalization(data):
     # min-max normalization
     normalized_data = (data - data.min()) / (data.max() - data.min())
+    normalized_data['quality'] = data['quality']
+    normalized_data['wine_type'] = data['wine_type']
     return normalized_data
+
+
 
 
 def splitData(data, validation_split=0.2):
@@ -51,11 +58,11 @@ def splitData(data, validation_split=0.2):
     y = data[[columns[size - 2], columns[size - 1]]]
     x = data.drop([columns[size - 2], columns[size - 1]],axis=1)
 
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=50)
     x_val = np.array([])
     y_val = np.array([])
     if(validation_split > 0.):
-        x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=validation_split)
+        x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=validation_split, random_state=50)
         x_val = x_val.to_numpy()
         y_val = y_val.to_numpy()
 
