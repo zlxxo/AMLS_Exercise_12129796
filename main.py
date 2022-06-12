@@ -5,16 +5,18 @@ Model = importlib.import_module("02_Model")
 
 if __name__ == '__main__':
 
+    print('----- Load data and check for null and NaN values ------')
     data = dataPrep.loadData()
-    #dataPrep.dataStatistics(data)
 
-    #data = dataPrep.dataNormalization(data)
-    #dataPrep.dataStatistics(data)
+    print('----- Check statistics of data variables ------')
+    dataPrep.dataStatistics(data)
 
     x_train, y_train, x_test, y_test, _, _ = dataPrep.splitData(data, validation_split=0.)
 
+    print('----- Regression ------')
     Model.regression(x_train, y_train[:, 0], x_test, y_test[:, 0])
 
+    print('----- Classification ------')
     Model.classification(x_train, y_train[:, 1], x_test, y_test[:, 1])
 
 
