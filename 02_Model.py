@@ -5,6 +5,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn import svm
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.ensemble import IsolationForest
+from sklearn.metrics import mean_absolute_error
 
 
 def regression(x_train, y_train, x_test, y_test):
@@ -21,8 +22,14 @@ def regression(x_train, y_train, x_test, y_test):
     reg = LogisticRegression(max_iter=10000, penalty='l1', solver='saga').fit(x_train, y_train)
     score_train = reg.score(x_train, y_train)
     print(f'Score on training set: {score_train}')
+    y_train_pred = reg.predict(x_train)
+    mae_train = mean_absolute_error(y_train_pred, y_train)
+    print(f'Mean absolute error on training set: {mae_train}')
     score_test = reg.score(x_test, y_test)
     print(f'Score on test set: {score_test}')
+    y_test_pred = reg.predict(x_test)
+    mae_test = mean_absolute_error(y_test_pred, y_test)
+    print(f'Mean absolute error on test set: {mae_test}')
     return
 
 def classification(x_train, y_train, x_test, y_test):
@@ -40,6 +47,12 @@ def classification(x_train, y_train, x_test, y_test):
     clf.fit(x_train, y_train)
     score_train = clf.score(x_train, y_train)
     print(f'Score on training set: {score_train}')
+    y_train_pred = clf.predict(x_train)
+    mae_train = mean_absolute_error(y_train_pred, y_train)
+    print(f'Mean absolute error on training set: {mae_train}')
     score_test = clf.score(x_test, y_test)
     print(f'Score on test set: {score_test}')
+    y_test_pred = clf.predict(x_test)
+    mae_test = mean_absolute_error(y_test_pred, y_test)
+    print(f'Mean absolute error on test set: {mae_test}')
     return

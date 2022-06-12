@@ -42,15 +42,6 @@ def dataStatistics(data):
     return
 
 
-def dataNormalization(data):
-    # min-max normalization
-    normalized_data = (data - data.min()) / (data.max() - data.min())
-    normalized_data['quality'] = data['quality']
-    normalized_data['wine_type'] = data['wine_type']
-    return normalized_data
-
-
-
 
 def splitData(data, validation_split=0.2):
     columns = np.array(data.columns)
