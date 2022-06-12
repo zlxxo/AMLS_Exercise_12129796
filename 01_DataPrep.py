@@ -52,9 +52,16 @@ def splitData(data, validation_split=0.2):
     x = data.drop([columns[size - 2], columns[size - 1]],axis=1)
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-    x_val = []
-    y_val = []
+    x_val = np.array([])
+    y_val = np.array([])
     if(validation_split > 0.):
         x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=validation_split)
+        x_val = x_val.to_numpy()
+        y_val = y_val.to_numpy()
 
-    return x_train, y_train, x_val, y_val, x_test, y_test
+    x_train = x_train.to_numpy()
+    y_train = y_train.to_numpy()
+    x_test = x_test.to_numpy()
+    y_test = y_test.to_numpy()
+
+    return x_train, y_train, x_test, y_test, x_val, y_val
