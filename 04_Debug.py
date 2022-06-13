@@ -41,3 +41,6 @@ def residuals(model, x_train, y_train, x_test, y_test):
     mse_test = mean_squared_error(y_test, y_pred_test)
     print(f'Mean squared error on test set: {mse_test}')
     return
+
+def coefficients(model):
+    print(f'Coefficients of the model: {model.coef_}')

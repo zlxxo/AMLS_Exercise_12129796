@@ -19,6 +19,7 @@ if __name__ == '__main__':
     model, x_tr, y_tr, x_te, y_te = Model.regression(x_train, y_train[:, 0], x_test, y_test[:, 0])
     Debug.score(model, x_tr, y_tr, x_te, y_te)
     Debug.residuals(model, x_tr, y_tr, x_te, y_te)
+    Debug.coefficients(model)
 
     print('----- Classification ------')
     model, x_tr, y_tr, x_te, y_te = Model.classification(x_train, y_train[:, 1], x_test, y_test[:, 1])
@@ -33,6 +34,7 @@ if __name__ == '__main__':
     model, x_tr, y_tr, x_te, y_te = Tuning.regression(x_train, y_train[:, 0], x_test, y_test[:, 0])
     Debug.score(model, x_tr, y_tr, x_te, y_te)
     Debug.residuals(model, x_tr, y_tr, x_te, y_te)
+    Debug.coefficients(model)
 
     print('----- Tuned Classification ------')
     model, x_tr, y_tr, x_te, y_te = Tuning.classification(x_train, y_train[:, 1], x_test, y_test[:, 1])
