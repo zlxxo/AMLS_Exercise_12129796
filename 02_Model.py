@@ -20,18 +20,8 @@ def regression(x_train, y_train, x_test, y_test):
     x_train = scaler.transform(x_train)
     x_test = scaler.transform(x_test)
     # regression
-    reg = LogisticRegression(max_iter=1000).fit(x_train, y_train)
-    score_train = reg.score(x_train, y_train)
-    print(f'Score on training set: {score_train}')
-    y_train_pred = reg.predict(x_train)
-    mae_train = mean_absolute_error(y_train_pred, y_train)
-    print(f'Mean absolute error on training set: {mae_train}')
-    score_test = reg.score(x_test, y_test)
-    print(f'Score on test set: {score_test}')
-    y_test_pred = reg.predict(x_test)
-    mae_test = mean_absolute_error(y_test_pred, y_test)
-    print(f'Mean absolute error on test set: {mae_test}')
-    return
+    reg = LogisticRegression(max_iter=1000, random_state=0).fit(x_train, y_train)
+    return reg, x_train, y_train, x_test, y_test
 
 def classification(x_train, y_train, x_test, y_test):
     # identify outliers
@@ -44,16 +34,6 @@ def classification(x_train, y_train, x_test, y_test):
     x_train = scaler.transform(x_train)
     x_test = scaler.transform(x_test)
     # classification
-    clf = svm.SVC()
+    clf = svm.SVC(random_state=0)
     clf.fit(x_train, y_train)
-    score_train = clf.score(x_train, y_train)
-    print(f'Score on training set: {score_train}')
-    y_train_pred = clf.predict(x_train)
-    mae_train = mean_absolute_error(y_train_pred, y_train)
-    print(f'Mean absolute error on training set: {mae_train}')
-    score_test = clf.score(x_test, y_test)
-    print(f'Score on test set: {score_test}')
-    y_test_pred = clf.predict(x_test)
-    mae_test = mean_absolute_error(y_test_pred, y_test)
-    print(f'Mean absolute error on test set: {mae_test}')
-    return
+    return clf, x_train, y_train, x_test, y_test
