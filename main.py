@@ -10,7 +10,7 @@ if __name__ == '__main__':
     data = dataPrep.loadData()
 
     print('----- Check statistics of data variables ------')
-    #dataPrep.dataStatistics(data)
+    dataPrep.dataStatistics(data)
 
     x_train, y_train, x_test, y_test, _, _ = dataPrep.splitData(data, validation_split=0.)
 

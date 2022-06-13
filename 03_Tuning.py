@@ -12,6 +12,8 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture as GMM
+from imblearn.over_sampling import SMOTE
 
 labels = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides',
           'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
@@ -46,6 +48,14 @@ def cleanData(data):
     return x_train, y_train, x_test, y_test
 
 
+def oversampleData(x, y):
+    print(f'Number of training samples: {x.shape[0]}')
+    oversample = SMOTE(k_neighbors=2, random_state=0)
+    x, y = oversample.fit_resample(x, y)
+    print(f'Number of training samples after oversampling: {x.shape[0]}')
+    return x, y
+
+
 def addNonlinearities(x_train, y_train, x_test, y_test):
 
     # plotting combinations of variables with corresponding targets to see if there
@@ -54,7 +64,7 @@ def addNonlinearities(x_train, y_train, x_test, y_test):
     colors = np.array(['yellow', 'pink', 'red', 'blue', 'grey', 'black', 'brown'])
     w = x_test.shape[1]
     for row in range(w):
-        for col in range(w):
+        for col in range(row):
             plt.figure(row * 11 + col)
             for i in range(4):
                 for j in range(2):
@@ -66,12 +76,12 @@ def addNonlinearities(x_train, y_train, x_test, y_test):
             plt.title(f'Variables {row} and {col}')
             plt.show()
 
-    poly = PolynomialFeatures(2)
-    x_poly_train = np.array(x_train)
-    poly.fit_transform(x_poly_train)
-    x_poly_test = np.array(x_test)
-    poly.fit_transform(x_poly_test)
-    return np.c_[x_train, x_poly_train], np.c_[x_test, x_poly_test]
+    #poly = PolynomialFeatures(2)
+    #x_poly_train = np.array(x_train)
+    #poly.fit_transform(x_poly_train)
+    #x_poly_test = np.array(x_test)
+    #poly.fit_transform(x_poly_test)
+    return x_train, x_test
 
 def regression(x_train, y_train, x_test, y_test):
     # identify outliers
