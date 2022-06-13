@@ -6,7 +6,6 @@ from sklearn.neural_network import MLPRegressor
 from sklearn import svm
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.ensemble import IsolationForest
-from sklearn.metrics import mean_absolute_error
 
 
 def regression(x_train, y_train, x_test, y_test):

@@ -1,18 +1,11 @@
-from sklearn.linear_model import LinearRegression, LogisticRegression, Ridge
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LogisticRegression
 from sklearn import svm
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import IsolationForest
-from sklearn.metrics import mean_absolute_error
-import pandas as pd
 import numpy as np
-from sklearn.feature_selection import VarianceThreshold
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
-from sklearn.mixture import GaussianMixture as GMM
 from imblearn.over_sampling import SMOTE
 
 labels = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides',
