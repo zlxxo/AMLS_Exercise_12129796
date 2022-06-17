@@ -11,6 +11,20 @@ from imblearn.over_sampling import SMOTE
 labels = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides',
           'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
+
+def removeOutliers(x_train, y_train):
+    # identify outliers
+    iso = IsolationForest(contamination=0.2)
+    y = iso.fit_predict(x_train)
+    mask = y != -1
+    return x_train[mask, :], y_train[mask]
+
+def scaleData(x_train, x_test):
+    scaler = MinMaxScaler().fit(x_train)
+    x_train = scaler.transform(x_train)
+    x_test = scaler.transform(x_test)
+    return x_train, x_test
+
 def cleanData(data):
     columns = np.array(data.columns)
     size = columns.shape[0]
@@ -77,15 +91,10 @@ def addNonlinearities(x_train, y_train, x_test, y_test):
     return x_train, x_test
 
 def regression(x_train, y_train, x_test, y_test):
-    # identify outliers
-    iso = IsolationForest(contamination=0.2)
-    yhat = iso.fit_predict(x_train)
-    mask = yhat != -1
-    x_train, y_train = x_train[mask, :], y_train[mask]
+    # remove outliers
+    x_train, y_train = removeOutliers(x_train, y_train)
     # scaling data
-    scaler = MinMaxScaler().fit(x_train)
-    x_train = scaler.transform(x_train)
-    x_test = scaler.transform(x_test)
+    x_train, x_test = scaleData(x_train, x_test)
     # oversampling training set because uneven distribution of targets
     #x_train, y_train = oversampleData(x_train, y_train)
     # add non-linearities
@@ -95,15 +104,10 @@ def regression(x_train, y_train, x_test, y_test):
     return reg, x_train, y_train, x_test, y_test
 
 def classification(x_train, y_train, x_test, y_test):
-    # identify outliers
-    iso = IsolationForest(contamination=0.2)
-    yhat = iso.fit_predict(x_train)
-    mask = yhat != -1
-    x_train, y_train = x_train[mask, :], y_train[mask]
-    #scaling data
-    scaler = MinMaxScaler().fit(x_train)
-    x_train = scaler.transform(x_train)
-    x_test = scaler.transform(x_test)
+    # remove outliers
+    x_train, y_train = removeOutliers(x_train, y_train)
+    # scaling data
+    x_train, x_test = scaleData(x_train, x_test)
     # classification
     clf = svm.SVC(random_state=0)
     clf.fit(x_train, y_train)
