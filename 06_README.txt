@@ -110,3 +110,8 @@ In the regression() method uncomment lines:
 
 ------------------ Task 1.4 --------------------
 
+There are 4 methods in this task:
+- confusionMatrix() - plots confusion matrix of the classification model
+- score() - prints out accuracy on training and test sets
+- residuals() - prints out mean absolute error and mean squared error on training and test set of the regression model
+- coefficients() - prints coefficients that are used in regression to find what is the greatest probability of the grade in regression
