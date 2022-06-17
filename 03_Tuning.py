@@ -25,7 +25,8 @@ def scaleData(x_train, x_test):
     x_test = scaler.transform(x_test)
     return x_train, x_test
 
-def cleanData(data):
+
+def removeCorrelatedDataAndSplit(data):
     columns = np.array(data.columns)
     size = columns.shape[0]
     y = data[[columns[size - 2], columns[size - 1]]]
@@ -33,7 +34,7 @@ def cleanData(data):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=50)
 
     # removing correlated columns
-    correlation_matrix = data.corr()
+    correlation_matrix = data.corr(method='spearman')
     correlated_columns = []
 
     for i in range(len(correlation_matrix.columns)):
@@ -90,6 +91,29 @@ def addNonlinearities(x_train, y_train, x_test, y_test):
     poly.fit_transform(x_poly_test)
     return x_train, x_test
 
+def splitTobBins(x_train, x_test, n_bins):
+    mins = np.min(x_train, axis=0)
+    maxs = np.max(x_train, axis=0)
+
+    h, w = x_train.shape
+    x_train_bins = np.zeros(shape=(h, w))
+    for i in range(n_bins):
+        for m in range(h):
+            for n in range(w):
+                if x_train[m, n] >= ((maxs[n] - mins[n]) / n_bins) * i and x_train[m, n] < ((maxs[n] - mins[n]) / n_bins) * (i + 1.):
+                    x_train_bins[m, n] = i / n_bins
+
+    h, w = x_test.shape
+    x_test_bins = np.zeros(shape=(h, w))
+    for i in range(n_bins):
+        for m in range(h):
+            for n in range(w):
+                if x_test[m, n] >= ((maxs[n] - mins[n]) / n_bins) * i and x_test[m, n] < (
+                        (maxs[n] - mins[n]) / n_bins) * (i + 1.):
+                    x_test_bins[m, n] = i / n_bins
+
+    return x_train_bins, x_test_bins
+
 def regression(x_train, y_train, x_test, y_test):
     # remove outliers
     x_train, y_train = removeOutliers(x_train, y_train)
@@ -97,10 +121,12 @@ def regression(x_train, y_train, x_test, y_test):
     x_train, x_test = scaleData(x_train, x_test)
     # oversampling training set because uneven distribution of targets
     #x_train, y_train = oversampleData(x_train, y_train)
+    # binning data
+    #x_train, x_test = splitTobBins(x_train, x_test, 10)
     # add non-linearities
     #x_train, x_test = addNonlinearities(x_train, y_train, x_test, y_test)
     # regression
-    reg = LogisticRegression(max_iter=1000, random_state=0).fit(x_train, y_train)
+    reg = LogisticRegression(max_iter=10000, random_state=0).fit(x_train, y_train)
     return reg, x_train, y_train, x_test, y_test
 
 def classification(x_train, y_train, x_test, y_test):

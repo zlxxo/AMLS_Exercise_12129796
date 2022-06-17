@@ -62,9 +62,51 @@ since it produced the best performance. We also tried using different models suc
 - KNeighborsRegressor from sklearn
 - RandomForestRegressor from sklearn
 - DecisionTreeRegressor from sklearn
+- SVR from sklearn
 - MLPRegressor from sklearn with different number of hidden layers and number of units in those layers
 - keras Sequential model with dense layers
+The best accuracy we get is 55.5% on the training set and 53.8% on test set. The mean absolute error is around 0.5
+and mean squared error is around 0.5.
 
 
 In the classification() method we first remove outliers and perform normalization. We use a support-vector model
 for classification (SVC) from sklearn and in the beginning it performs well with the given dataset.
+We get accuracy of 99.7% on training set and 98.4% on test set.
+
+
+
+------------------ Task 1.3 --------------------
+
+In previous task regression models do not perform well, so we try to perform feature engineering and fine-tunning of model
+hyperparameters.
+
+When it comes to feature engineering we tried:
+- remove correlated features
+- oversampling training data
+- add non-linearities
+- data binning
+
+
+There are no correlated variables. We used Pearson, Kendall and Spearman correlation methods but they do not detect
+any correlation between variables. See removeCorrelatedDataAndSplit() method in 03_Tunning.py.
+
+In the histogram in first task we can see that the in the wine quality colum the data is not equaly distributed.
+When we look at the mean value and the 25, 50 and 75 percentils we notice that most of the wines are graded with 6.
+Because of that we oversample data to get even distribution of the targets. See oversampleData() method in 03_Tunning.py.
+
+We also try to do scatter plots between variables and mark targets with different colors to see if there is a
+dependence between variables that is obvious to the eye. We also tried adding polynomial non-linearities but they
+did not improve the performance. See addNonlinearities() method in 03_Tunning.py.
+
+At the end we tried binning data into groups but that did not improve the performance of the regression model.
+See splitTobBins() method in 03_Tunning.py.
+
+In the regression() method uncomment lines:
+- 123 for oversampling
+- 125 for binning
+- 127 for adding non-linearities
+
+
+
+------------------ Task 1.4 --------------------
+

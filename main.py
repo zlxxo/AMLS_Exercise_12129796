@@ -28,7 +28,7 @@ if __name__ == '__main__':
                           'Confusion matrix of classification model on test data')
 
     print('----- Clean data ------')
-    x_train, y_train, x_test, y_test = Tuning.cleanData(data)
+    x_train, y_train, x_test, y_test = Tuning.removeCorrelatedDataAndSplit(data)
 
     print('----- Tuned Regression ------')
     model, x_tr, y_tr, x_te, y_te = Tuning.regression(x_train, y_train[:, 0], x_test, y_test[:, 0])
@@ -42,6 +42,4 @@ if __name__ == '__main__':
     Debug.confusionMatrix(model, x_tr, y_tr, x_te, y_te, 'Confusion matrix of tuned classification model on training data',
                           'Confusion matrix of tuned classification model on test data')
 
-
-
-
+    

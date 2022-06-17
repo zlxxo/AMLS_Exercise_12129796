@@ -33,7 +33,7 @@ def dataStatistics(data):
     data.plot(subplots=True, layout=(5,3), figsize=(10, 10))
     plt.title('Dataset variables')
     plt.show()
-    data.hist(bins=10,figsize=(10,10))
+    data.hist(bins=7,figsize=(10,10))
     plt.title('Variable histograms')
     plt.show()
     data.plot(kind='density', subplots=True, layout=(5,3), figsize=(10, 10))
